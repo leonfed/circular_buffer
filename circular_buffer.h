@@ -1,12 +1,8 @@
 #ifndef CIRCULAR_BUFFER_CIRCULAR_BUFFER_H
 #define CIRCULAR_BUFFER_CIRCULAR_BUFFER_H
 
-#include <cstdlib>
 #include <iterator>
-#include <memory>
 #include <cassert>
-#include <utility>
-#include <type_traits>
 
 template <typename T>
 struct circular_buffer {
@@ -27,7 +23,7 @@ private:
                 , ind_begin(ind_begin)
         {}
 
-        basic_iterator(const basic_iterator & other)
+        basic_iterator(basic_iterator const& other)
                 : ind(other.ind)
                 , cap(other.cap)
                 , data(other.data)
@@ -44,7 +40,7 @@ private:
 
         ~basic_iterator() = default;
 
-        basic_iterator& operator=(const basic_iterator & other) {
+        basic_iterator& operator=(basic_iterator const& other) {
             basic_iterator tmp(other);
             swap(tmp);
             return *this;
@@ -121,7 +117,7 @@ private:
             return *this;
         }
 
-        friend difference_type operator-(const basic_iterator& a, const basic_iterator& b) {
+        friend difference_type operator-(basic_iterator const& a, basic_iterator const& b) {
             return a.get_pos() - b.get_pos();
         }
 
@@ -271,7 +267,7 @@ void circular_buffer<T>::push_back(T const& value) {
 }
 
 template<typename T>
-void circular_buffer<T>::push_front(const T &value) {
+void circular_buffer<T>::push_front(T const& value) {
     if (empty()) {
         reserve(4);
     } else if (sz == cap - 1) {
